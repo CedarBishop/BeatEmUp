@@ -19,27 +19,18 @@ public class PlayerMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    public void Move (Vector2 value)
     {
-        Move();
-        Jump();
-    }
-
-    void Move ()
-    {
-        movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized * movementSpeed * Time.deltaTime;
+        movementDirection = new Vector3(value.x, 0, value.y).normalized * movementSpeed * Time.deltaTime;
         rigidbody.velocity = new Vector3(movementDirection.x, rigidbody.velocity.y, movementDirection.z);
     }
 
-    void Jump ()
+    public void Jump ()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (CheckIsGrounded())
         {
-            if (CheckIsGrounded())
-            {
-                float jumpVelocity = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y);
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpVelocity, rigidbody.velocity.z);
-            }
+            float jumpVelocity = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpVelocity, rigidbody.velocity.z);
         }
     }
 
